@@ -23,7 +23,8 @@ depends=("${MINGW_PACKAGE_PREFIX}-gcc-libs"
          "${MINGW_PACKAGE_PREFIX}-python2-numpy"
          "${MINGW_PACKAGE_PREFIX}-tk"
          "${MINGW_PACKAGE_PREFIX}-wxWidgets"
-        )
+         "${MINGW_PACKAGE_PREFIX}-cairo"
+		 )
 makedepends=("${MINGW_PACKAGE_PREFIX}-libgd"
              "${MINGW_PACKAGE_PREFIX}-gcc-fortran"
              "${MINGW_PACKAGE_PREFIX}-gcc-ada"
@@ -33,6 +34,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-libgd"
              "patch"
              "perl"
              "bsdtar>=3.3"
+             "${MINGW_PACKAGE_PREFIX}-cairo"
              "${MINGW_PACKAGE_PREFIX}-cmake>=3.6.2")
 optdepends=("${MINGW_PACKAGE_PREFIX}-swig: connects Plplot C library to Python and Lua"
             "${MINGW_PACKAGE_PREFIX}-libgd: ability to output png, jpeg and gif files")
@@ -88,6 +90,7 @@ build() {
     -DPYTHON_INCLUDE_DIRS=${MINGW_PREFIX}/include/python${pyver} \
     -DGD_INCLUDE_DIR=${MINGW_PREFIX}/include \
     -DDEFAULT_NO_BINDINGS=ON \
+	-DENABLE_DYNDRIVERS=OFF \
     -DENABLE_ada=ON \
     -DENABLE_cxx=ON \
     -DENABLE_fortran=ON \
@@ -96,7 +99,6 @@ build() {
     -DENABLE_tcl=ON \
     -DENABLE_tk=ON \
     -DENABLE_wxwidgets=ON \
-    -DDEFAULT_NO_CAIRO_DEVICES=ON \
     -DENABLE_itk=OFF \
     -DENABLE_qt=OFF \
     -DPLD_png=ON \
