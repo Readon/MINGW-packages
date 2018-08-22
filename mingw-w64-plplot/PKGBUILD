@@ -11,16 +11,18 @@ _realname=plplot
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=5.13.0
-pkgrel=2
+pkgrel=3
 arch=('any')
 pkgdesc="Scientific plotting software (mingw-w64)"
-depends=("${MINGW_PACKAGE_PREFIX}-gcc-libs"
+depends=("${MINGW_PACKAGE_PREFIX}-cairo"
+         "${MINGW_PACKAGE_PREFIX}-gcc-libs"
          "${MINGW_PACKAGE_PREFIX}-gcc-libgfortran"
          "${MINGW_PACKAGE_PREFIX}-freetype"
          "${MINGW_PACKAGE_PREFIX}-libharu"
          "${MINGW_PACKAGE_PREFIX}-lua"
          "${MINGW_PACKAGE_PREFIX}-python2"
          "${MINGW_PACKAGE_PREFIX}-python2-numpy"
+         "${MINGW_PACKAGE_PREFIX}-shapelib"
          "${MINGW_PACKAGE_PREFIX}-tk"
          "${MINGW_PACKAGE_PREFIX}-wxWidgets"
          "${MINGW_PACKAGE_PREFIX}-cairo"
@@ -68,9 +70,7 @@ build() {
   mkdir -p ${srcdir}/build-${MINGW_CHOST} && cd ${srcdir}/build-${MINGW_CHOST}
 
   local pyexe="${MINGW_PREFIX}/bin/python2.exe"
-
   local pyver=$(${pyexe} -c "import sys;sys.stdout.write('.'.join(map(str, sys.version_info[:2])))")
-
   local pylib="${MINGW_PREFIX}/lib/libpython${pyver}.dll.a"
   if [[ ${pyver:0:1} != "2" ]] ; then
      pylib="${MINGW_PREFIX}/lib/libpython${pyver}m.dll.a"
@@ -98,6 +98,7 @@ build() {
     -DENABLE_python=ON \
     -DENABLE_tcl=ON \
     -DENABLE_tk=ON \
+    -DENABLE_DYNDRIVERS=OFF \
     -DENABLE_wxwidgets=ON \
     -DENABLE_itk=OFF \
     -DENABLE_qt=OFF \
